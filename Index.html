@@ -24,11 +24,16 @@ body{
   top:50%;
   left:50%;
   transform:translate(-50%, -50%);
-  opacity:0;              /* initially invisible */
-  cursor:pointer;         
-  transition: opacity 0.8s ease-in-out; 
+  opacity:0;
+  cursor:pointer;
+  transition: opacity 0.8s ease-in-out;
 }
 </style>
+
+<!-- ✅ ADDED: Video.js core -->
+<link href="https://vjs.zencdn.net/8.0.4/video-js.css" rel="stylesheet">
+<script src="https://vjs.zencdn.net/8.0.4/video.min.js"></script>
+
 </head>
 <body>
 
@@ -50,32 +55,80 @@ window.addEventListener("load", function(){
 });
 </script>
 
-<!-- First multi-video ad script -->
-<script>
-(function(betuu){
-    var d = document,
-        s = d.createElement('script'),
-        l = d.scripts[d.scripts.length - 1];
-    s.settings = betuu || {};
-    s.src = "//cooperativestrike.com/bBX.VasIduG/lk0TYDWDcd/WeHmx9CuVZqU/lCkePDTxYa4/Nbz-YC4eMOTCMKtTNVjog/3TNzj/grx/NBwu";
-    s.async = true;
-    s.referrerPolicy = 'no-referrer-when-downgrade';
-    l.parentNode.insertBefore(s, l);
-})({})
-</script>
+<!-- ✅ ADDED: Slider Container -->
+<div id="vast-slider" style="
+  position: fixed;
+  bottom: -220px;
+  right: 20px;
+  width: 320px;
+  height: 180px;
+  background: #000;
+  z-index: 99999;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  transition: bottom 0.5s ease;
+">
 
-<!-- Second multi-video ad script -->
+  <!-- Close Button -->
+  <div onclick="closeAd()" style="
+    position:absolute;
+    top:5px;
+    right:10px;
+    color:#fff;
+    font-size:18px;
+    cursor:pointer;
+    z-index:10000;">
+    ✕
+  </div>
+
+  <!-- Video Player -->
+  <video id="vast-player"
+         class="video-js vjs-default-skin"
+         width="320"
+         height="180"
+         muted
+         playsinline>
+  </video>
+</div>
+
+<!-- ✅ ADDED: VAST Plugin -->
+<script src="https://cdn.jsdelivr.net/npm/videojs-vast-vpaid@2.0.2/dist/videojs_5.vast.vpaid.min.js"></script>
+
 <script>
-(function(thyqws){
-    var d = document,
-        s = d.createElement('script'),
-        l = d.scripts[d.scripts.length - 1];
-    s.settings = thyqws || {};
-    s.src = "//cooperativestrike.com/b/X-VQs.dXGBlx0tY/W/cK/Ne/m/9auCZnUvlHk/PYTFY/4wNAzKYl4tMRTWMxtMNJjMgH3_N/jog/xaNcwM";
-    s.async = true;
-    s.referrerPolicy = 'no-referrer-when-downgrade';
-    l.parentNode.insertBefore(s, l);
-})({})
+var slider = document.getElementById("vast-slider");
+
+// Show slider after 3 seconds
+setTimeout(function(){
+  slider.style.bottom = "20px";
+}, 3000);
+
+// Close button
+function closeAd() {
+  slider.style.display = "none";
+}
+
+// Initialize player
+var player = videojs('vast-player');
+
+player.ready(function () {
+  player.vastClient({
+    adTagUrl: "https://fullchemistry.com/ddmSF/zOd.GXNHv-Z/GWUl/zebmO9ruXZkUVlUkhP/TdYj4ONYz/cUx/M/jGEXtJNfjLgg3wNyz_EzyENsQX",
+    playAdAlways: true,
+    timeout: 5000,
+    adCancelTimeout: 5000
+  });
+
+  // Try autoplay
+  player.play().catch(function(){
+    console.log("Autoplay blocked");
+  });
+
+  // Hide if no ad
+  player.on('adserror', function(){
+    slider.style.display = "none";
+  });
+});
 </script>
 
 </body>
