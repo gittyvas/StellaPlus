@@ -2,131 +2,79 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>JuicyAds Fade-in Center Ad + Multi Video Ads</title>
+<title>Video with Pre-roll Ad</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Video.js styles -->
+<link href="https://vjs.zencdn.net/8.0.4/video-js.css" rel="stylesheet">
 
 <style>
 body{
   margin:0;
   padding:0;
-  height:100vh;
-  background-image:url("IMG_0884.jpeg");
-  background-size:cover;
-  background-position:center;
+  background:#000;
   color:white;
   text-align:center;
-  position:relative;
 }
 
-/* container for the JuicyAds ad */
-#ad-container{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%, -50%);
-  opacity:0;
-  cursor:pointer;
-  transition: opacity 0.8s ease-in-out;
+/* Center container for your video */
+#video-container {
+  max-width: 720px;
+  margin: 50px auto;
 }
 </style>
-
-<!-- ✅ ADDED: Video.js core -->
-<link href="https://vjs.zencdn.net/8.0.4/video-js.css" rel="stylesheet">
-<script src="https://vjs.zencdn.net/8.0.4/video.min.js"></script>
-
 </head>
 <body>
 
-<!-- JuicyAds fade-in center ad -->
-<div id="ad-container">
-  <script type="text/javascript" data-cfasync="false" async src="https://poweredby.jads.co/js/jads.js"></script>
-  <ins id="1112966" data-width="300" data-height="262"></ins>
-  <script type="text/javascript" data-cfasync="false" async>
-    (adsbyjuicy = window.adsbyjuicy || []).push({'adzone':1112966});
-  </script>
-</div>
-
-<script>
-// Fade in the JuicyAds ad after 30 seconds
-window.addEventListener("load", function(){
-  setTimeout(function(){
-    document.getElementById("ad-container").style.opacity = "1";
-  }, 30000);
-});
-</script>
-
-<!-- ✅ ADDED: Slider Container -->
-<div id="vast-slider" style="
-  position: fixed;
-  bottom: -220px;
-  right: 20px;
-  width: 320px;
-  height: 180px;
-  background: #000;
-  z-index: 99999;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 0 15px rgba(0,0,0,0.6);
-  transition: bottom 0.5s ease;
-">
-
-  <!-- Close Button -->
-  <div onclick="closeAd()" style="
-    position:absolute;
-    top:5px;
-    right:10px;
-    color:#fff;
-    font-size:18px;
-    cursor:pointer;
-    z-index:10000;">
-    ✕
-  </div>
-
-  <!-- Video Player -->
-  <video id="vast-player"
-         class="video-js vjs-default-skin"
-         width="320"
-         height="180"
-         muted
-         playsinline>
+<div id="video-container">
+  <video
+    id="main-video"
+    class="video-js vjs-default-skin"
+    controls
+    width="720"
+    height="405"
+    poster="IMG_0884.jpeg"
+    playsinline
+  >
+    <source src="YOUR_VIDEO.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
   </video>
 </div>
 
-<!-- ✅ ADDED: VAST Plugin -->
+<!-- Video.js scripts -->
+<script src="https://vjs.zencdn.net/8.0.4/video.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/videojs-vast-vpaid@2.0.2/dist/videojs_5.vast.vpaid.min.js"></script>
 
 <script>
-var slider = document.getElementById("vast-slider");
+// Initialize the main video player
+var player = videojs('main-video');
 
-// Show slider after 3 seconds
-setTimeout(function(){
-  slider.style.bottom = "20px";
-}, 3000);
+player.ready(function(){
+  // Hook to trigger pre-roll when user clicks play
+  player.on('play', function(){
+    
+    // Prevent multiple triggers
+    if(player.hasPlayedAd) return;
+    player.hasPlayedAd = true;
 
-// Close button
-function closeAd() {
-  slider.style.display = "none";
-}
+    // Pause main video
+    player.pause();
 
-// Initialize player
-var player = videojs('vast-player');
-
-player.ready(function () {
-  player.vastClient({
-    adTagUrl: "https://fullchemistry.com/ddmSF/zOd.GXNHv-Z/GWUl/zebmO9ruXZkUVlUkhP/TdYj4ONYz/cUx/M/jGEXtJNfjLgg3wNyz_EzyENsQX",
-    playAdAlways: true,
-    timeout: 5000,
-    adCancelTimeout: 5000
-  });
-
-  // Try autoplay
-  player.play().catch(function(){
-    console.log("Autoplay blocked");
-  });
-
-  // Hide if no ad
-  player.on('adserror', function(){
-    slider.style.display = "none";
+    // Play VAST pre-roll
+    player.vastClient({
+      adTagUrl: "https://fullchemistry.com/ddmSF/zOd.GXNHv-Z/GWUl/zebmO9ruXZkUVlUkhP/TdYj4ONYz/cUx/M/jGEXtJNfjLgg3wNyz_EzyENsQX",
+      playAdAlways: true,
+      timeout: 5000,
+      adCancelTimeout: 5000,
+      onAdEnd: function(){
+        // Resume main video after ad finishes
+        player.play();
+      },
+      onAdError: function(){
+        // Resume main video if ad fails
+        player.play();
+      }
+    });
   });
 });
 </script>
