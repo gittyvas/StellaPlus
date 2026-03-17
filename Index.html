@@ -2,80 +2,58 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Video with Pre-roll Ad</title>
+<title>JuicyAds Fade-in Center Ad</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="ppck-ver" content="3de9cc719516f27d2efc126541356170" />
+<meta name="a64ac3ddf2844b9f2eacdc2987c6d8bba1f43998" content="a64ac3ddf2844b9f2eacdc2987c6d8bba1f43998" />
 
-<!-- Video.js styles -->
-<link href="https://vjs.zencdn.net/8.0.4/video-js.css" rel="stylesheet">
-
+  
 <style>
 body{
   margin:0;
   padding:0;
-  background:#000;
+  height:100vh;
+  background-image:url("IMG_0884.jpeg");
+  background-size:cover;
+  background-position:center;
   color:white;
   text-align:center;
+  position:relative;
 }
 
-/* Center container for your video */
-#video-container {
-  max-width: 720px;
-  margin: 50px auto;
+/* container for the ad */
+#ad-container{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  opacity:0;              /* initially invisible */
+  cursor:pointer;         /* shows it’s clickable */
+  transition: opacity 0.8s ease-in-out; /* fade-in effect */
 }
 </style>
+
 </head>
 <body>
 
-<div id="video-container">
-  <video
-    id="main-video"
-    class="video-js vjs-default-skin"
-    controls
-    width="720"
-    height="405"
-    poster="IMG_0884.jpeg"
-    playsinline
-  >
-    <source src="YOUR_VIDEO.mp4" type="video/mp4">
-    Your browser does not support HTML5 video.
-  </video>
+
+<!-- Ad container (clickable immediately) -->
+<div id="ad-container">
+
+<!-- JuicyAds v3.0 -->
+<script type="text/javascript" data-cfasync="false" async src="https://poweredby.jads.co/js/jads.js"></script>
+<ins id="1112966" data-width="300" data-height="262"></ins>
+<script type="text/javascript" data-cfasync="false" async>(adsbyjuicy = window.adsbyjuicy || []).push({'adzone':1112966});</script>
+<!--JuicyAds END-->
+
 </div>
 
-<!-- Video.js scripts -->
-<script src="https://vjs.zencdn.net/8.0.4/video.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/videojs-vast-vpaid@2.0.2/dist/videojs_5.vast.vpaid.min.js"></script>
-
 <script>
-// Initialize the main video player
-var player = videojs('main-video');
-
-player.ready(function(){
-  // Hook to trigger pre-roll when user clicks play
-  player.on('play', function(){
-    
-    // Prevent multiple triggers
-    if(player.hasPlayedAd) return;
-    player.hasPlayedAd = true;
-
-    // Pause main video
-    player.pause();
-
-    // Play VAST pre-roll
-    player.vastClient({
-      adTagUrl: "https://fullchemistry.com/ddmSF/zOd.GXNHv-Z/GWUl/zebmO9ruXZkUVlUkhP/TdYj4ONYz/cUx/M/jGEXtJNfjLgg3wNyz_EzyENsQX",
-      playAdAlways: true,
-      timeout: 5000,
-      adCancelTimeout: 5000,
-      onAdEnd: function(){
-        // Resume main video after ad finishes
-        player.play();
-      },
-      onAdError: function(){
-        // Resume main video if ad fails
-        player.play();
-      }
-    });
-  });
+// Fade in the ad after 30 seconds (30000 milliseconds)
+window.addEventListener("load", function(){
+  setTimeout(function(){
+    document.getElementById("ad-container").style.opacity = "1";
+  }, 30000);
 });
 </script>
 
