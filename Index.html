@@ -5,6 +5,7 @@
 <title>Regina Daniels Video with Pre-roll</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- Video.js CSS -->
 <link href="https://vjs.zencdn.net/7.22.0/video-js.css" rel="stylesheet" />
 
 <style>
@@ -105,10 +106,10 @@ body {
 <!-- Video.js core -->
 <script src="https://vjs.zencdn.net/7.22.0/video.min.js"></script>
 
-<!-- Ads plugin -->
+<!-- Video.js Ads plugin -->
 <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.9.0/dist/videojs-contrib-ads.min.js"></script>
 
-<!-- REQUIRED: Google IMA SDK -->
+<!-- Google IMA SDK -->
 <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
 
 <!-- IMA plugin -->
@@ -117,35 +118,43 @@ body {
 <script>
 const player = videojs('my-video');
 
-// ✅ Your HilltopAds VAST tag
+// Your VAST ad URL
 const vastUrl = "https://fullchemistry.com/dam.FUzFdIGnN_vNZhGUUG/meEmJ9AuuZXUFlqkbPXTbYH4gNqzkcvxZMWjgE/tYNaj/gE3/N-zIECyyNNQX";
 
-// Initialize ads
+// Initialize IMA plugin
 player.ima({
   adTagUrl: vastUrl,
   debug: true
 });
 
-// Mobile-safe setup
-player.ready(function () {
+// Ensure ads only initialize once (mobile requires user interaction)
+let adsInitialized = false;
 
-  // Required for iOS (VERY IMPORTANT)
-  player.ima.initializeAdDisplayContainer();
-
-  // Request ads when user clicks play
-  player.on('play', function () {
+player.on('play', function () {
+  if (!adsInitialized) {
+    player.ima.initializeAdDisplayContainer(); // required for mobile
     player.ima.requestAds();
-  });
-
+    adsInitialized = true;
+  }
 });
 
-// Debug logs (to see what's happening)
+// Fallbacks: ensure video always plays
+player.on('aderror', function() {
+  console.log('Ad error, starting content.');
+  player.play();
+});
+
+player.on('adend', function() {
+  console.log('Ad ended, starting content.');
+  player.play();
+});
+
 player.on('adsready', () => console.log('Ads ready'));
 player.on('adstart', () => console.log('Ad started'));
 player.on('adend', () => console.log('Ad ended'));
 player.on('aderror', (e) => console.log('Ad error:', e));
 
-// Fade in JuicyAds after 30 seconds (your original logic)
+// Fade in JuicyAds after 30 seconds
 window.addEventListener("load", function(){
   setTimeout(function(){
     document.getElementById("juicyads-container").style.opacity = "1";
