@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Regina Daniels Video with Pre-roll</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link href="https://vjs.zencdn.net/7.22.0/video-js.css" rel="stylesheet" />
 
 <style>
@@ -69,6 +70,7 @@ body {
 }
 </style>
 </head>
+
 <body>
 
 <!-- Video Player -->
@@ -100,36 +102,50 @@ body {
   <iframe id="aads-frame" data-aa="2430846" src="//acceptable.a-ads.com/2430846/?size=Adaptive"></iframe>
 </div>
 
-<!-- Video.js + IMA plugin -->
+<!-- Video.js core -->
 <script src="https://vjs.zencdn.net/7.22.0/video.min.js"></script>
+
+<!-- Ads plugin -->
 <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.9.0/dist/videojs-contrib-ads.min.js"></script>
+
+<!-- REQUIRED: Google IMA SDK -->
+<script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+
+<!-- IMA plugin -->
 <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.8.0/dist/videojs.ima.min.js"></script>
 
 <script>
 const player = videojs('my-video');
 
-// HilltopAds VAST tag
-const vastUrl = "https://fullchemistry.com/dem/F_ztd.GGNbvaZ-G/Uv/OeKmR9lu/ZyU/lSkYPqTNYp4BNHz/clxFMSjREctuNpjpgw3iNizFE/yWNvQc";
+// ✅ Your HilltopAds VAST tag
+const vastUrl = "https://fullchemistry.com/dam.FUzFdIGnN_vNZhGUUG/meEmJ9AuuZXUFlqkbPXTbYH4gNqzkcvxZMWjgE/tYNaj/gE3/N-zIECyyNNQX";
 
-// Flag to ensure pre-roll only plays first click
-let preRollPlayed = false;
-
-// Configure IMA plugin
+// Initialize ads
 player.ima({
   adTagUrl: vastUrl,
   debug: true
 });
 
-// First click triggers the ad
-player.one('play', function() {
-  if(!preRollPlayed){
-    preRollPlayed = true;
-    player.ima.initializeAdDisplayContainer();
+// Mobile-safe setup
+player.ready(function () {
+
+  // Required for iOS (VERY IMPORTANT)
+  player.ima.initializeAdDisplayContainer();
+
+  // Request ads when user clicks play
+  player.on('play', function () {
     player.ima.requestAds();
-  }
+  });
+
 });
 
-// Fade in JuicyAds after 30s
+// Debug logs (to see what's happening)
+player.on('adsready', () => console.log('Ads ready'));
+player.on('adstart', () => console.log('Ad started'));
+player.on('adend', () => console.log('Ad ended'));
+player.on('aderror', (e) => console.log('Ad error:', e));
+
+// Fade in JuicyAds after 30 seconds (your original logic)
 window.addEventListener("load", function(){
   setTimeout(function(){
     document.getElementById("juicyads-container").style.opacity = "1";
