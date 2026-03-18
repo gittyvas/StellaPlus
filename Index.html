@@ -1,84 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Video.js Player with HilltopAds Pre-roll (Debug)</title>
+<meta charset="UTF-8">
+<title>JuicyAds Fade-in Center Ad</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="juicyads-site-verification" content="1c37209260191375b69363a2bbc97c44">
 
-  <!-- Video.js CSS from CDN -->
-  <link href="https://vjs.zencdn.net/7.22.0/video-js.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.9.0/dist/videojs.ads.css" rel="stylesheet"/>
-  <link href="https://cdn.jsdelivr.net/npm/videojs-ima@1.8.0/dist/videojs.ima.css" rel="stylesheet"/>
+<style>
+body{
+  margin:0;
+  padding:0;
+  height:100vh;
+  background-image:url("IMG_0884.jpeg");
+  background-size:cover;
+  background-position:center;
+  color:white;
+  text-align:center;
+  position:relative;
+}
 
-  <style>
-    body { margin: 0; background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; }
-    video { width: 80%; max-width: 800px; }
-  </style>
+/* container for the ad */
+#ad-container{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  opacity:0;              /* initially invisible */
+  cursor:pointer;         /* shows it’s clickable */
+  transition: opacity 0.8s ease-in-out; /* fade-in effect */
+}
+</style>
+
 </head>
 <body>
 
-  <video id="content_video" class="video-js vjs-default-skin" controls preload="auto" poster="poster.jpg" width="640" height="360">
-    <source src="demo-video.mp4" type="video/mp4">
-  </video>
 
-  <!-- Google IMA SDK -->
-  <script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+<!-- Ad container (clickable immediately) -->
+<div id="ad-container">
 
-  <!-- Video.js and plugins from CDN -->
-  <script src="https://vjs.zencdn.net/7.22.0/video.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.9.0/dist/videojs.ads.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.8.0/dist/videojs.ima.min.js"></script>
+<!-- JuicyAds v3.0 -->
+<script type="text/javascript" data-cfasync="false" async src="https://poweredby.jads.co/js/jads.js"></script>
 
-  <script>
-    // Initialize Video.js
-    var player = videojs('content_video');
+<ins id="1112981" data-width="300" data-height="100"></ins>
 
-    // HilltopAds VAST tag
-    var options = {
-      id: 'content_video',
-      adTagUrl: 'https://fullchemistry.com/d.m/FKz/dqG/NZvfZIG-UF/UeSm/9UuyZPUIlpkxP/T/Y/4/N/zscXxTM/j/ExtxNEjtg/3IN/zkEByWNKQF',
-      debug: true
-    };
+<script type="text/javascript" data-cfasync="false">
+  (adsbyjuicy = window.adsbyjuicy || []).push({'adzone':1112981});
+</script>
+<!--JuicyAds END-->
 
-    // Initialize IMA plugin
-    player.ima(options);
+</div>
 
-    // Remove native controls on iPad/Android to prevent conflicts
-    var contentPlayer = document.getElementById('content_video_html5_api');
-    if ((navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/Android/i)) &&
-        contentPlayer.hasAttribute('controls')) {
-      contentPlayer.removeAttribute('controls');
-    }
-
-    // Mobile-safe: initialize ad container on first click/tap
-    var startEvent = 'click';
-    if (navigator.userAgent.match(/iPhone/i) ||
-        navigator.userAgent.match(/iPad/i) ||
-        navigator.userAgent.match(/Android/i)) {
-      startEvent = 'touchend';
-    }
-    var wrapperDiv = document.getElementById('content_video');
-    var initAdDisplayContainer = function() {
-      console.log('Initializing ad container');
-      player.ima.initializeAdDisplayContainer();
-      wrapperDiv.removeEventListener(startEvent, initAdDisplayContainer);
-    }
-    wrapperDiv.addEventListener(startEvent, initAdDisplayContainer, { once: true });
-
-    // Fallback if ad fails
-    player.on('aderror', function(e) {
-      console.log('Ad error:', e);
-      console.log('Playing main video');
-      player.play();
-    });
-
-    // Log all ad events for debugging
-    var adEvents = ['adsready','adstart','adend','adskip','adtimeout','adclick','adserror'];
-    adEvents.forEach(function(eventName) {
-      player.on(eventName, function(event) {
-        console.log('IMA event:', eventName, event);
-      });
-    });
-  </script>
+<script>
+// Fade in the ad after 30 seconds (30000 milliseconds)
+window.addEventListener("load", function(){
+  setTimeout(function(){
+    document.getElementById("ad-container").style.opacity = "1";
+  }, 30000);
+});
+</script>
 
 </body>
 </html>
