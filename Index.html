@@ -2,212 +2,180 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>Video Player with Ads</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Regina Daniels Video with Pre-roll</title>
+<meta name="ppck-ver" content="3de9cc719516f27d2efc126541356170" />
+<meta name="a64ac3ddf2844b9f2eacdc2987c6d8bba1f43998" content="a64ac3ddf2844b9f2eacdc2987c6d8bba1f43998" />
+
 <style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
-    background: radial-gradient(circle at top left, #1a1a1a, #000);
-    overflow: hidden;
-  }
+body {
+  margin:0;
+  padding:0;
+  height:100vh;
+  background-image:url("IMG_0884.jpeg");
+  background-size:cover;
+  background-position:center;
+  color:white;
+  text-align:center;
+  position:relative;
+  font-family: Arial, sans-serif;
+}
 
-  .video-wrapper {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 400px;
-    max-width: 80%;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.7);
-    background: #000;
-    z-index: 1;
-  }
+/* Video Player */
+.video-wrapper {
+  position:absolute;
+  top:20px;
+  right:20px;
+  width:400px;
+  max-width:80%;
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:0 8px 25px rgba(0,0,0,0.7);
+  background:#000;
+  z-index:99997;
+}
 
-  .video-header {
-    text-align: right;
-    padding: 10px;
-    background: rgba(0,0,0,0.7);
-  }
+.video-container {
+  position:relative;
+}
 
-  .video-header h1 {
-    margin: 0;
-    font-size: 20px;
-    color: #fff;
-  }
+video {
+  width:100%;
+  display:block;
+  cursor:pointer;
+  background:#000;
+}
 
-  .video-header p {
-    margin: 4px 0 0;
-    font-size: 14px;
-    color: #ccc;
-  }
+/* Central play button */
+.play-overlay {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-size:50px;
+  color:#fff;
+  background:rgba(0,0,0,0.4);
+  border-radius:50%;
+  width:80px;
+  height:80px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition: background 0.3s;
+  z-index:2;
+}
 
-  .video-container {
-    position: relative;
-  }
+.play-overlay:hover {
+  background:rgba(0,0,0,0.6);
+}
 
-  video {
-    width: 100%;
-    display: block;
-    cursor: pointer;
-    background: #000;
-  }
+/* container for JuicyAds */
+#juicyads-container {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  opacity:0; /* fade-in */
+  transition: opacity 0.8s ease-in-out;
+  z-index:99998;
+  width:100%;
+  max-width:300px;
+}
 
-  .controls {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0,0,0,0.6);
-    display: flex;
-    align-items: center;
-    padding: 8px;
-    gap: 8px;
-  }
+/* A-Ads Sticky Banner */
+#aads-container {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 99999;
+  padding: 8px 0;
+  background: rgba(0,0,0,0); /* transparent, iframe handles content */
+}
 
-  .controls button,
-  .controls input[type="range"] {
-    background: transparent;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-  }
-
-  .controls button:hover {
-    color: #0f0;
-  }
-
-  .controls input[type="range"] {
-    flex: 1;
-  }
-
-  .play-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 50px;
-    color: #fff;
-    background: rgba(0,0,0,0.4);
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background 0.3s;
-    z-index: 2;
-  }
-
-  .play-overlay:hover {
-    background: rgba(0,0,0,0.6);
-  }
+#aads-frame {
+  width: 70%;
+  max-width: 600px;
+  height: auto;
+  margin: auto;
+  border: none;
+  overflow: hidden;
+}
 </style>
 </head>
 <body>
 
+<!-- Video Player -->
 <div class="video-wrapper">
-  <div class="video-header">
-    <h1>Regina Daniels</h1>
-    <p>Enjoy this demo video.</p>
-  </div>
   <div class="video-container">
-    <!-- Start with main video for preview -->
     <video id="video" preload="metadata" poster="poster.jpg">
       <source src="demo-video.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
     <div class="play-overlay" id="playOverlay">▶️</div>
-    <div class="controls">
-      <button id="playPause">▶️</button>
-      <input type="range" id="seek" min="0" max="100" value="0">
-      <input type="range" id="volume" min="0" max="1" step="0.05" value="1">
-      <button id="fullscreen">⛶</button>
-    </div>
   </div>
+</div>
+
+<!-- JuicyAds: FADE-IN AFTER 30s -->
+<div id="juicyads-container">
+  <script type="text/javascript" data-cfasync="false" async src="https://poweredby.jads.co/js/jads.js"></script>
+  <ins id="1112966" data-width="300" data-height="262"></ins>
+  <script type="text/javascript" data-cfasync="false" async>
+    (adsbyjuicy = window.adsbyjuicy || []).push({'adzone':1112966});
+  </script>
+</div>
+
+<!-- NEW A-Ads STICKY BOTTOM BANNER -->
+<div id="aads-container">
+  <iframe id="aads-frame" data-aa="2430846" src="//acceptable.a-ads.com/2430846/?size=Adaptive"></iframe>
 </div>
 
 <script>
 const video = document.getElementById('video');
-const playPause = document.getElementById('playPause');
-const seek = document.getElementById('seek');
-const volume = document.getElementById('volume');
-const fullscreen = document.getElementById('fullscreen');
 const playOverlay = document.getElementById('playOverlay');
-
-let adPlayed = false;
+const juicyAds = document.getElementById('juicyads-container');
+let clickCount = 0;
 
 // Pre-roll ad URL
 const adVideo = "https://fullchemistry.com/dSm.FYz/dOGLNUvrZuG/UM/iekmN9ouUZdU/lIkKPjT_Yg4nNLzRcQxLM-jbE/tFN/jVgv3/NHzDEPyiNOQq";
 const mainVideo = "demo-video.mp4";
 
-// Play/pause toggle
-function togglePlay() {
-  if (video.paused) {
+// Handle clicks on the video overlay
+playOverlay.addEventListener('click', () => {
+  clickCount++;
+
+  if (clickCount === 1) {
+    // First click → play pre-roll ad
+    video.src = adVideo;
+    video.load();
     video.play();
-    playPause.textContent = '⏸️';
     playOverlay.style.display = 'none';
-  } else {
-    video.pause();
-    playPause.textContent = '▶️';
-    playOverlay.style.display = 'flex';
-  }
-}
-
-playPause.addEventListener('click', togglePlay);
-playOverlay.addEventListener('click', togglePlay);
-video.addEventListener('click', togglePlay);
-
-// Update seek bar
-video.addEventListener('timeupdate', () => {
-  const progress = (video.currentTime / video.duration) * 100;
-  seek.value = progress;
-});
-
-// Seek video
-seek.addEventListener('input', () => {
-  video.currentTime = (seek.value / 100) * video.duration;
-});
-
-// Volume control
-volume.addEventListener('input', () => {
-  video.volume = volume.value;
-});
-
-// Fullscreen toggle
-fullscreen.addEventListener('click', () => {
-  if (!document.fullscreenElement) {
-    video.parentElement.requestFullscreen();
-  } else {
-    document.exitFullscreen();
+  } else if (clickCount === 2) {
+    // Second click → show JuicyAds / A-Ads
+    juicyAds.style.opacity = "1";
+    alert("Ads opened!"); // optional feedback
   }
 });
 
-// Automatically play ad after 1 second preview
-video.addEventListener('loadedmetadata', () => {
-  setTimeout(() => {
-    if (!adPlayed) {
-      adPlayed = true;
-      video.src = adVideo;
-      video.load();
-      video.play();
-    }
-  }, 1000); // 1 second delay
-});
-
-// After ad ends, play main video
+// After ad ends, load main video automatically
 video.addEventListener('ended', () => {
-  if (adPlayed && video.src === adVideo) {
+  if (video.src === adVideo) {
     video.src = mainVideo;
     video.load();
     video.play();
-  } else {
-    playOverlay.style.display = 'flex';
-    playPause.textContent = '▶️';
   }
+});
+
+// Fade in JuicyAds after 30 seconds
+window.addEventListener("load", function(){
+  setTimeout(function(){
+    if(clickCount < 2) { // only fade in if not already opened manually
+      juicyAds.style.opacity = "1";
+    }
+  }, 30000);
 });
 </script>
 
