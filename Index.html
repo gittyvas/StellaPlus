@@ -8,11 +8,28 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #111 0%, #000 100%);
-      color: #fff;
       min-height: 100vh;
       overflow: hidden;
       position: relative;
+      background: radial-gradient(circle at top left, #1a1a1a, #000);
+    }
+
+    /* Optional animated background shapes */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(50,50,50,0.2) 0%, transparent 70%);
+      top: -50%;
+      left: -50%;
+      animation: float 20s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes float {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     .video-wrapper {
@@ -25,6 +42,7 @@
       overflow: hidden;
       box-shadow: 0 8px 25px rgba(0,0,0,0.7);
       background: #000;
+      z-index: 1;
     }
 
     .video-header {
@@ -49,6 +67,7 @@
       width: 100%;
       display: block;
       cursor: pointer;
+      background: #000;
     }
 
     .controls {
@@ -117,7 +136,8 @@
       <p>Enjoy this demo video.</p>
     </div>
     <div class="video-container">
-      <video id="video" src="demo-video.mp4" preload="metadata"></video>
+      <!-- Poster shows preview before play -->
+      <video id="video" src="demo-video.mp4" preload="metadata" poster="poster-image.jpg"></video>
       <div class="play-overlay" id="playOverlay">▶️</div>
       <div class="controls">
         <button id="playPause">▶️</button>
