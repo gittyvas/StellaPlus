@@ -1,203 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Regina Daniels Video</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      min-height: 100vh;
-      overflow: hidden;
-      position: relative;
-      background: radial-gradient(circle at top left, #1a1a1a, #000);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regina Daniels Video</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at top left, #1a1a1a, #000);
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
 
-    /* Optional animated background shapes */
-    body::before {
-      content: '';
-      position: absolute;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(50,50,50,0.2) 0%, transparent 70%);
-      top: -50%;
-      left: -50%;
-      animation: float 20s linear infinite;
-      z-index: 0;
-    }
+  .video-wrapper {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 400px;
+    max-width: 80%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+    background: #000;
+  }
 
-    @keyframes float {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+  .video-header {
+    text-align: right;
+    padding: 10px;
+    background: rgba(0,0,0,0.7);
+  }
 
-    .video-wrapper {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      width: 400px; /* medium size */
-      max-width: 80%;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.7);
-      background: #000;
-      z-index: 1;
-    }
+  .video-header h1 {
+    margin: 0;
+    font-size: 20px;
+    color: #fff;
+  }
 
-    .video-header {
-      text-align: right;
-      padding: 10px;
-      background: rgba(0,0,0,0.7);
-    }
+  .video-header p {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: #ccc;
+  }
 
-    .video-header h1 {
-      margin: 0;
-      font-size: 20px;
-      color: #fff;
-    }
+  video {
+    width: 100%;
+    display: block;
+    cursor: pointer;
+  }
 
-    .video-header p {
-      margin: 4px 0 0;
-      font-size: 14px;
-      color: #ccc;
-    }
+  .controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    gap: 8px;
+  }
 
-    video {
-      width: 100%;
-      display: block;
-      cursor: pointer;
-      background: #000;
-    }
+  .controls button,
+  .controls input[type="range"] {
+    background: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+  }
 
-    .controls {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(0,0,0,0.6);
-      display: flex;
-      align-items: center;
-      padding: 8px;
-      gap: 8px;
-    }
+  .controls button:hover {
+    color: #0f0;
+  }
 
-    .controls button,
-    .controls input[type="range"] {
-      background: transparent;
-      border: none;
-      color: #fff;
-      cursor: pointer;
-    }
+  .controls input[type="range"] {
+    flex: 1;
+  }
 
-    .controls button:hover {
-      color: #0f0;
-    }
+  /* Central play button overlay */
+  .play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 50px;
+    color: #fff;
+    background: rgba(0,0,0,0.4);
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s;
+    z-index: 2;
+  }
 
-    .controls input[type="range"] {
-      flex: 1;
-    }
+  .play-overlay:hover {
+    background: rgba(0,0,0,0.6);
+  }
 
-    /* Central play button */
-    .play-overlay {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 50px;
-      color: #fff;
-      background: rgba(0,0,0,0.4);
-      border-radius: 50%;
-      width: 80px;
-      height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background 0.3s;
-      z-index: 2;
-    }
-
-    .play-overlay:hover {
-      background: rgba(0,0,0,0.6);
-    }
-
-    .video-container {
-      position: relative;
-    }
-
-  </style>
+  .video-container {
+    position: relative;
+  }
+</style>
 </head>
 <body>
 
-  <div class="video-wrapper">
-    <div class="video-header">
-      <h1>Regina Daniels</h1>
-      <p>Enjoy this demo video.</p>
-    </div>
-    <div class="video-container">
-      <!-- Poster shows preview before play -->
-      <video id="video" src="demo-video.mp4" preload="metadata" poster="poster-image.jpg"></video>
-      <div class="play-overlay" id="playOverlay">▶️</div>
-      <div class="controls">
-        <button id="playPause">▶️</button>
-        <input type="range" id="seek" min="0" max="100" value="0">
-        <input type="range" id="volume" min="0" max="1" step="0.05" value="1">
-        <button id="fullscreen">⛶</button>
-      </div>
+<div class="video-wrapper">
+  <div class="video-header">
+    <h1>Regina Daniels</h1>
+    <p>Enjoy this demo video.</p>
+  </div>
+  <div class="video-container">
+    <video id="video" preload="metadata">
+      <source src="demo-video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="play-overlay" id="playOverlay">▶️</div>
+    <div class="controls">
+      <button id="playPause">▶️</button>
+      <input type="range" id="seek" min="0" max="100" value="0">
+      <input type="range" id="volume" min="0" max="1" step="0.05" value="1">
+      <button id="fullscreen">⛶</button>
     </div>
   </div>
+</div>
 
-  <script>
-    const video = document.getElementById('video');
-    const playPause = document.getElementById('playPause');
-    const seek = document.getElementById('seek');
-    const volume = document.getElementById('volume');
-    const fullscreen = document.getElementById('fullscreen');
-    const playOverlay = document.getElementById('playOverlay');
+<script>
+const video = document.getElementById('video');
+const playPause = document.getElementById('playPause');
+const seek = document.getElementById('seek');
+const volume = document.getElementById('volume');
+const fullscreen = document.getElementById('fullscreen');
+const playOverlay = document.getElementById('playOverlay');
 
-    // Play / Pause function
-    function togglePlay() {
-      if (video.paused) {
-        video.play();
-        playPause.textContent = '⏸️';
-        playOverlay.style.display = 'none';
-      } else {
-        video.pause();
-        playPause.textContent = '▶️';
-        playOverlay.style.display = 'flex';
-      }
-    }
+function togglePlay() {
+  if (video.paused) {
+    video.play();
+    playPause.textContent = '⏸️';
+    playOverlay.style.display = 'none';
+  } else {
+    video.pause();
+    playPause.textContent = '▶️';
+    playOverlay.style.display = 'flex';
+  }
+}
 
-    playPause.addEventListener('click', togglePlay);
-    playOverlay.addEventListener('click', togglePlay);
-    video.addEventListener('click', togglePlay);
+playPause.addEventListener('click', togglePlay);
+playOverlay.addEventListener('click', togglePlay);
+video.addEventListener('click', togglePlay);
 
-    // Update seek bar as video plays
-    video.addEventListener('timeupdate', () => {
-      const progress = (video.currentTime / video.duration) * 100;
-      seek.value = progress;
-    });
+video.addEventListener('timeupdate', () => {
+  const progress = (video.currentTime / video.duration) * 100;
+  seek.value = progress;
+});
 
-    // Seek video
-    seek.addEventListener('input', () => {
-      video.currentTime = (seek.value / 100) * video.duration;
-    });
+seek.addEventListener('input', () => {
+  video.currentTime = (seek.value / 100) * video.duration;
+});
 
-    // Volume control
-    volume.addEventListener('input', () => {
-      video.volume = volume.value;
-    });
+volume.addEventListener('input', () => {
+  video.volume = volume.value;
+});
 
-    // Fullscreen toggle
-    fullscreen.addEventListener('click', () => {
-      if (!document.fullscreenElement) {
-        video.parentElement.requestFullscreen();
-      } else {
-        document.exitFullscreen();
-      }
-    });
-  </script>
+fullscreen.addEventListener('click', () => {
+  if (!document.fullscreenElement) {
+    video.parentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+});
+</script>
 
 </body>
 </html>
