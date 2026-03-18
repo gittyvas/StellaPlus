@@ -8,10 +8,27 @@
   body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: radial-gradient(circle at top left, #1a1a1a, #000);
     min-height: 100vh;
+    background: radial-gradient(circle at top left, #1a1a1a, #000);
     overflow: hidden;
-    position: relative;
+  }
+
+  /* Optional subtle floating background effect */
+  body::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(50,50,50,0.2) 0%, transparent 70%);
+    top: -50%;
+    left: -50%;
+    animation: float 20s linear infinite;
+    z-index: 0;
+  }
+
+  @keyframes float {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 
   .video-wrapper {
@@ -24,6 +41,7 @@
     overflow: hidden;
     box-shadow: 0 8px 25px rgba(0,0,0,0.7);
     background: #000;
+    z-index: 1;
   }
 
   .video-header {
@@ -44,10 +62,15 @@
     color: #ccc;
   }
 
+  .video-container {
+    position: relative;
+  }
+
   video {
     width: 100%;
     display: block;
     cursor: pointer;
+    background: #000;
   }
 
   .controls {
@@ -101,10 +124,6 @@
   .play-overlay:hover {
     background: rgba(0,0,0,0.6);
   }
-
-  .video-container {
-    position: relative;
-  }
 </style>
 </head>
 <body>
@@ -115,7 +134,7 @@
     <p>Enjoy this demo video.</p>
   </div>
   <div class="video-container">
-    <video id="video" preload="metadata">
+    <video id="video" preload="metadata" poster="poster.jpg">
       <source src="demo-video.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
@@ -137,6 +156,7 @@ const volume = document.getElementById('volume');
 const fullscreen = document.getElementById('fullscreen');
 const playOverlay = document.getElementById('playOverlay');
 
+// Toggle play/pause
 function togglePlay() {
   if (video.paused) {
     video.play();
@@ -153,19 +173,23 @@ playPause.addEventListener('click', togglePlay);
 playOverlay.addEventListener('click', togglePlay);
 video.addEventListener('click', togglePlay);
 
+// Update seek bar
 video.addEventListener('timeupdate', () => {
   const progress = (video.currentTime / video.duration) * 100;
   seek.value = progress;
 });
 
+// Seek video
 seek.addEventListener('input', () => {
   video.currentTime = (seek.value / 100) * video.duration;
 });
 
+// Volume control
 volume.addEventListener('input', () => {
   video.volume = volume.value;
 });
 
+// Fullscreen toggle
 fullscreen.addEventListener('click', () => {
   if (!document.fullscreenElement) {
     video.parentElement.requestFullscreen();
