@@ -2,10 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Regina Daniels Video with Pre-roll Ads</title>
+<title>Regina Daniels Video with Pre-roll</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- Video.js CSS -->
 <link href="https://vjs.zencdn.net/7.22.0/video-js.css" rel="stylesheet" />
 
 <style>
@@ -17,12 +15,12 @@ body {
   background-size:cover;
   background-position:center;
   color:white;
+  font-family: Arial, sans-serif;
   text-align:center;
   position:relative;
-  font-family: Arial, sans-serif;
 }
 
-/* Video player container top-right */
+/* Video player top-right */
 .video-wrapper {
   position:absolute;
   top:20px;
@@ -49,28 +47,27 @@ body {
   max-width:300px;
 }
 
-/* A-Ads Sticky Banner */
+/* A-Ads sticky bottom */
 #aads-container {
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  text-align: center;
-  z-index: 99999;
-  padding: 8px 0;
+  width:100%;
+  position:fixed;
+  bottom:0;
+  left:0;
+  text-align:center;
+  z-index:99999;
+  padding:8px 0;
   background: rgba(0,0,0,0);
 }
 
 #aads-frame {
-  width: 70%;
-  max-width: 600px;
-  height: auto;
-  margin: auto;
-  border: none;
-  overflow: hidden;
+  width:70%;
+  max-width:600px;
+  height:auto;
+  margin:auto;
+  border:none;
+  overflow:hidden;
 }
 </style>
-
 </head>
 <body>
 
@@ -89,7 +86,7 @@ body {
   </video>
 </div>
 
-<!-- JuicyAds: FADE-IN AFTER 30s -->
+<!-- JuicyAds -->
 <div id="juicyads-container">
   <script type="text/javascript" data-cfasync="false" async src="https://poweredby.jads.co/js/jads.js"></script>
   <ins id="1112966" data-width="300" data-height="262"></ins>
@@ -98,45 +95,46 @@ body {
   </script>
 </div>
 
-<!-- A-Ads Sticky Banner -->
+<!-- A-Ads -->
 <div id="aads-container">
   <iframe id="aads-frame" data-aa="2430846" src="//acceptable.a-ads.com/2430846/?size=Adaptive"></iframe>
 </div>
 
-<!-- Video.js + IMA (VAST) scripts -->
+<!-- Video.js + IMA plugin -->
 <script src="https://vjs.zencdn.net/7.22.0/video.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.9.0/dist/videojs-contrib-ads.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.8.0/dist/videojs.ima.min.js"></script>
 
 <script>
-  const player = videojs('my-video');
+const player = videojs('my-video');
 
-  // HilltopAds VAST tag (replace with your real VAST URL)
-  const vastUrl = "https://YOUR_HILLTOPADS_VAST_URL_HERE";
+// HilltopAds VAST tag
+const vastUrl = "https://fullchemistry.com/dem/F_ztd.GGNbvaZ-G/Uv/OeKmR9lu/ZyU/lSkYPqTNYp4BNHz/clxFMSjREctuNpjpgw3iNizFE/yWNvQc";
 
-  let preRollPlayed = false;
+// Flag to ensure pre-roll only plays first click
+let preRollPlayed = false;
 
-  // Initialize IMA plugin
-  player.ima({
-    adTagUrl: vastUrl,
-    debug: true
-  });
+// Configure IMA plugin
+player.ima({
+  adTagUrl: vastUrl,
+  debug: true
+});
 
-  // First click on player overlay triggers VAST ad
-  player.one('play', function() {
-    if (!preRollPlayed) {
-      preRollPlayed = true;
-      player.ima.initializeAdDisplayContainer();
-      player.ima.requestAds();
-    }
-  });
+// First click triggers the ad
+player.one('play', function() {
+  if(!preRollPlayed){
+    preRollPlayed = true;
+    player.ima.initializeAdDisplayContainer();
+    player.ima.requestAds();
+  }
+});
 
-  // Optional: Fade in JuicyAds after 30s
-  window.addEventListener("load", function(){
-    setTimeout(function(){
-      document.getElementById("juicyads-container").style.opacity = "1";
-    }, 30000);
-  });
+// Fade in JuicyAds after 30s
+window.addEventListener("load", function(){
+  setTimeout(function(){
+    document.getElementById("juicyads-container").style.opacity = "1";
+  }, 30000);
+});
 </script>
 
 </body>
