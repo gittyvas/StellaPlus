@@ -3,32 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Custom Video Player</title>
+  <title>Regina Daniels Video</title>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: #111;
+      background: linear-gradient(135deg, #111 0%, #000 100%);
+      color: #fff;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .video-wrapper {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 400px; /* medium size */
+      max-width: 80%;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+      background: #000;
+    }
+
+    .video-header {
+      text-align: right;
+      padding: 10px;
+      background: rgba(0,0,0,0.7);
+    }
+
+    .video-header h1 {
+      margin: 0;
+      font-size: 20px;
       color: #fff;
     }
 
-    .video-container {
-      position: relative;
-      width: 80%;
-      max-width: 800px;
-      background: #000;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    .video-header p {
+      margin: 4px 0 0;
+      font-size: 14px;
+      color: #ccc;
     }
 
     video {
       width: 100%;
       display: block;
+      cursor: pointer;
     }
 
     .controls {
@@ -58,17 +78,53 @@
     .controls input[type="range"] {
       flex: 1;
     }
+
+    /* Central play button */
+    .play-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 50px;
+      color: #fff;
+      background: rgba(0,0,0,0.4);
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.3s;
+      z-index: 2;
+    }
+
+    .play-overlay:hover {
+      background: rgba(0,0,0,0.6);
+    }
+
+    .video-container {
+      position: relative;
+    }
+
   </style>
 </head>
 <body>
 
-  <div class="video-container">
-    <video id="video" src="demo-video.mp4" preload="metadata"></video>
-    <div class="controls">
-      <button id="playPause">▶️</button>
-      <input type="range" id="seek" min="0" max="100" value="0">
-      <input type="range" id="volume" min="0" max="1" step="0.05" value="1">
-      <button id="fullscreen">⛶</button>
+  <div class="video-wrapper">
+    <div class="video-header">
+      <h1>Regina Daniels</h1>
+      <p>Enjoy this demo video.</p>
+    </div>
+    <div class="video-container">
+      <video id="video" src="demo-video.mp4" preload="metadata"></video>
+      <div class="play-overlay" id="playOverlay">▶️</div>
+      <div class="controls">
+        <button id="playPause">▶️</button>
+        <input type="range" id="seek" min="0" max="100" value="0">
+        <input type="range" id="volume" min="0" max="1" step="0.05" value="1">
+        <button id="fullscreen">⛶</button>
+      </div>
     </div>
   </div>
 
@@ -78,17 +134,24 @@
     const seek = document.getElementById('seek');
     const volume = document.getElementById('volume');
     const fullscreen = document.getElementById('fullscreen');
+    const playOverlay = document.getElementById('playOverlay');
 
-    // Play / Pause
-    playPause.addEventListener('click', () => {
+    // Play / Pause function
+    function togglePlay() {
       if (video.paused) {
         video.play();
         playPause.textContent = '⏸️';
+        playOverlay.style.display = 'none';
       } else {
         video.pause();
         playPause.textContent = '▶️';
+        playOverlay.style.display = 'flex';
       }
-    });
+    }
+
+    playPause.addEventListener('click', togglePlay);
+    playOverlay.addEventListener('click', togglePlay);
+    video.addEventListener('click', togglePlay);
 
     // Update seek bar as video plays
     video.addEventListener('timeupdate', () => {
