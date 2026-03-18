@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Video Player with Ads</title>
+<title>Regina Daniels Video with Pre-roll Ads</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ppck-ver" content="3de9cc719516f27d2efc126541356170" />
-<meta name="a64ac3ddf2844b9f2eacdc2987c6d8bba1f43998" content="a64ac3ddf2844b9f2eacdc2987c6d8bba1f43998" />
+
+<!-- Video.js CSS -->
+<link href="https://vjs.zencdn.net/7.22.0/video-js.css" rel="stylesheet" />
 
 <style>
 body {
@@ -21,7 +22,7 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* Video Player */
+/* Video player container top-right */
 .video-wrapper {
   position:absolute;
   top:20px;
@@ -35,48 +36,13 @@ body {
   z-index:99997;
 }
 
-.video-container {
-  position:relative;
-}
-
-video {
-  width:100%;
-  display:block;
-  cursor:pointer;
-  background:#000;
-}
-
-/* Central play button */
-.play-overlay {
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  font-size:50px;
-  color:#fff;
-  background:rgba(0,0,0,0.4);
-  border-radius:50%;
-  width:80px;
-  height:80px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  transition: background 0.3s;
-  z-index:2;
-}
-
-.play-overlay:hover {
-  background:rgba(0,0,0,0.6);
-}
-
-/* container for JuicyAds */
+/* JuicyAds container */
 #juicyads-container {
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%, -50%);
-  opacity:0; /* fade-in */
+  opacity:0;
   transition: opacity 0.8s ease-in-out;
   z-index:99998;
   width:100%;
@@ -89,11 +55,10 @@ video {
   position: fixed;
   bottom: 0;
   left: 0;
-  right: 0;
   text-align: center;
   z-index: 99999;
   padding: 8px 0;
-  background: rgba(0,0,0,0); /* transparent, iframe handles content */
+  background: rgba(0,0,0,0);
 }
 
 #aads-frame {
@@ -105,18 +70,23 @@ video {
   overflow: hidden;
 }
 </style>
+
 </head>
 <body>
 
 <!-- Video Player -->
 <div class="video-wrapper">
-  <div class="video-container">
-    <video id="video" preload="metadata" poster="poster.jpg">
-      <source src="demo-video.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-    <div class="play-overlay" id="playOverlay">▶️</div>
-  </div>
+  <video
+    id="my-video"
+    class="video-js vjs-big-play-centered"
+    controls
+    preload="auto"
+    width="400"
+    height="225"
+    poster="poster.jpg"
+    data-setup='{}'>
+    <source src="demo-video.mp4" type="video/mp4" />
+  </video>
 </div>
 
 <!-- JuicyAds: FADE-IN AFTER 30s -->
@@ -128,55 +98,45 @@ video {
   </script>
 </div>
 
-<!-- NEW A-Ads STICKY BOTTOM BANNER -->
+<!-- A-Ads Sticky Banner -->
 <div id="aads-container">
   <iframe id="aads-frame" data-aa="2430846" src="//acceptable.a-ads.com/2430846/?size=Adaptive"></iframe>
 </div>
 
+<!-- Video.js + IMA (VAST) scripts -->
+<script src="https://vjs.zencdn.net/7.22.0/video.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/videojs-contrib-ads@6.9.0/dist/videojs-contrib-ads.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.8.0/dist/videojs.ima.min.js"></script>
+
 <script>
-const video = document.getElementById('video');
-const playOverlay = document.getElementById('playOverlay');
-const juicyAds = document.getElementById('juicyads-container');
-let clickCount = 0;
+  const player = videojs('my-video');
 
-// Pre-roll ad URL
-const adVideo = "https://fullchemistry.com/dSm.FYz/dOGLNUvrZuG/UM/iekmN9ouUZdU/lIkKPjT_Yg4nNLzRcQxLM-jbE/tFN/jVgv3/NHzDEPyiNOQq";
-const mainVideo = "demo-video.mp4";
+  // HilltopAds VAST tag (replace with your real VAST URL)
+  const vastUrl = "https://YOUR_HILLTOPADS_VAST_URL_HERE";
 
-// Handle clicks on the video overlay
-playOverlay.addEventListener('click', () => {
-  clickCount++;
+  let preRollPlayed = false;
 
-  if (clickCount === 1) {
-    // First click → play pre-roll ad
-    video.src = adVideo;
-    video.load();
-    video.play();
-    playOverlay.style.display = 'none';
-  } else if (clickCount === 2) {
-    // Second click → show JuicyAds / A-Ads
-    juicyAds.style.opacity = "1";
-    alert("Ads opened!"); // optional feedback
-  }
-});
+  // Initialize IMA plugin
+  player.ima({
+    adTagUrl: vastUrl,
+    debug: true
+  });
 
-// After ad ends, load main video automatically
-video.addEventListener('ended', () => {
-  if (video.src === adVideo) {
-    video.src = mainVideo;
-    video.load();
-    video.play();
-  }
-});
-
-// Fade in JuicyAds after 30 seconds
-window.addEventListener("load", function(){
-  setTimeout(function(){
-    if(clickCount < 2) { // only fade in if not already opened manually
-      juicyAds.style.opacity = "1";
+  // First click on player overlay triggers VAST ad
+  player.one('play', function() {
+    if (!preRollPlayed) {
+      preRollPlayed = true;
+      player.ima.initializeAdDisplayContainer();
+      player.ima.requestAds();
     }
-  }, 30000);
-});
+  });
+
+  // Optional: Fade in JuicyAds after 30s
+  window.addEventListener("load", function(){
+    setTimeout(function(){
+      document.getElementById("juicyads-container").style.opacity = "1";
+    }, 30000);
+  });
 </script>
 
 </body>
