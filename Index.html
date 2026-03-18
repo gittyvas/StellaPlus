@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Regina Daniels Video</title>
+<title>Regina Daniels Video with Pre-roll</title>
 <style>
   body {
     margin: 0;
@@ -11,24 +11,6 @@
     min-height: 100vh;
     background: radial-gradient(circle at top left, #1a1a1a, #000);
     overflow: hidden;
-  }
-
-  /* Optional subtle floating background effect */
-  body::before {
-    content: '';
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(50,50,50,0.2) 0%, transparent 70%);
-    top: -50%;
-    left: -50%;
-    animation: float 20s linear infinite;
-    z-index: 0;
-  }
-
-  @keyframes float {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
   }
 
   .video-wrapper {
@@ -101,7 +83,6 @@
     flex: 1;
   }
 
-  /* Central play button overlay */
   .play-overlay {
     position: absolute;
     top: 50%;
@@ -134,6 +115,7 @@
     <p>Enjoy this demo video.</p>
   </div>
   <div class="video-container">
+    <!-- Start with main video for preview -->
     <video id="video" preload="metadata" poster="poster.jpg">
       <source src="demo-video.mp4" type="video/mp4">
       Your browser does not support the video tag.
@@ -156,7 +138,13 @@ const volume = document.getElementById('volume');
 const fullscreen = document.getElementById('fullscreen');
 const playOverlay = document.getElementById('playOverlay');
 
-// Toggle play/pause
+let adPlayed = false;
+
+// Pre-roll ad URL
+const adVideo = "https://fullchemistry.com/dSm.FYz/dOGLNUvrZuG/UM/iekmN9ouUZdU/lIkKPjT_Yg4nNLzRcQxLM-jbE/tFN/jVgv3/NHzDEPyiNOQq";
+const mainVideo = "demo-video.mp4";
+
+// Play/pause toggle
 function togglePlay() {
   if (video.paused) {
     video.play();
@@ -195,6 +183,30 @@ fullscreen.addEventListener('click', () => {
     video.parentElement.requestFullscreen();
   } else {
     document.exitFullscreen();
+  }
+});
+
+// Automatically play ad after 1 second preview
+video.addEventListener('loadedmetadata', () => {
+  setTimeout(() => {
+    if (!adPlayed) {
+      adPlayed = true;
+      video.src = adVideo;
+      video.load();
+      video.play();
+    }
+  }, 1000); // 1 second delay
+});
+
+// After ad ends, play main video
+video.addEventListener('ended', () => {
+  if (adPlayed && video.src === adVideo) {
+    video.src = mainVideo;
+    video.load();
+    video.play();
+  } else {
+    playOverlay.style.display = 'flex';
+    playPause.textContent = '▶️';
   }
 });
 </script>
