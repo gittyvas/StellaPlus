@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Fade-in Center Ad + Social Banner</title>
+<title>Fade-in Ad + Social Banner</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -21,21 +21,21 @@ body{
 /* Existing ad container (fade-in after 30s) */
 #ad-container{
   position:absolute;
-  top:50%;
+  top:60vh;  /* 60% down the screen, 40% above */
   left:50%;
-  transform:translate(-50%, -50%) translateY(-100px); /* start off-screen */
+  transform:translate(-50%, -50%) translateY(-100px); /* start slightly above for fade-in */
   opacity:0;               /* initially invisible */
   cursor:pointer;
-  pointer-events:auto;     /* clickable even when invisible */
+  pointer-events:auto;     /* clickable while hidden */
   transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
 }
 
-/* Social banner container (appears immediately, moved lower) */
+/* Social banner container (appears immediately, below existing ad) */
 #social-banner-container{
   position:absolute;
-  top:80%;  /* moved lower from 70% */
+  top:80vh;  /* 80% down the screen */
   left:50%;
-  transform:translate(-50%, -50%);
+  transform:translateX(-50%);
   cursor:pointer;
 }
 </style>
@@ -57,7 +57,7 @@ body{
 <script src="https://consumptionbackwardsentiments.com/1101e113121749e5852f56c3e2b573ea/invoke.js"></script>
 </div>
 
-<!-- Social Banner (appears immediately, lower on page) -->
+<!-- Social Banner (appears immediately, lower) -->
 <div id="social-banner-container">
 <script src="https://consumptionbackwardsentiments.com/d1/f9/d0/d1f9d0c9048ad08b5275b7e17e9c68a5.js"></script>
 </div>
@@ -68,7 +68,7 @@ window.addEventListener("load", function(){
   setTimeout(function(){
     var ad = document.getElementById("ad-container");
     ad.style.opacity = "1";
-    ad.style.transform = "translate(-50%, -50%) translateY(0)"; // slide into view
+    ad.style.transform = "translate(-50%, -50%) translateY(0)"; // slide to final position
   }, 30000);
 });
 </script>
