@@ -2,11 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>JuicyAds Fade-in Center Ad</title>
+<title>Fade-in Center Ad + Social Banner</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="juicyads-site-verification" content="1c37209260191375b69363a2bbc97c44">
-<meta name="8859c4e8edbdd3e720a9f4741d763b8c2f3c7528" content="8859c4e8edbdd3e720a9f4741d763b8c2f3c7528" />
-  
+
 <style>
 body{
   margin:0;
@@ -20,58 +18,58 @@ body{
   position:relative;
 }
 
-/* container for the ad */
+/* container for the existing ad (with fade-in) */
 #ad-container{
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%, -50%);
   opacity:0;              /* initially invisible */
-  cursor:pointer;         /* shows it’s clickable */
+  cursor:pointer;
   transition: opacity 0.8s ease-in-out; /* fade-in effect */
+}
+
+/* container for the new social banner (no fade-in) */
+#social-banner-container{
+  position:absolute;
+  top:70%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  cursor:pointer;
 }
 </style>
 
 </head>
 <body>
 
-
-<!-- Ad container (clickable immediately) -->
+<!-- Existing Ad container (with fade-in) -->
 <div id="ad-container">
-
-<!-- JuicyAds v3.0 -->
-<script type="text/javascript" data-cfasync="false" async src="https://poweredby.jads.co/js/jads.js"></script>
-
-<ins id="1112981" data-width="300" data-height="100"></ins>
-
-<script type="text/javascript" data-cfasync="false">
-  (adsbyjuicy = window.adsbyjuicy || []).push({'adzone':1112981});
+<script>
+(function(kitnk){
+    var d = document,
+        s = d.createElement('script'),
+        l = d.scripts[d.scripts.length - 1];
+    s.settings = kitnk || {};
+    s.src = "//selfassured-celebration.com/b.X/V/sSdBGVlW0EY-WTcg/kecmQ9CupZoUNlTkrPSTZYe4VOJDoEJy/OBDjEWtlN/jog/4ZM/THIb4rNUQj";
+    s.async = true;
+    s.referrerPolicy = 'no-referrer-when-downgrade';
+    l.parentNode.insertBefore(s, l);
+})({})
 </script>
-<!--JuicyAds END-->
+</div>
 
+<!-- New Social Banner container (appears immediately) -->
+<div id="social-banner-container">
+<script src="https://consumptionbackwardsentiments.com/d1/f9/d0/d1f9d0c9048ad08b5275b7e17e9c68a5.js"></script>
 </div>
 
 <script>
-// Fade in the ad after 30 seconds (30000 milliseconds)
+// Fade in only the existing ad after 30 seconds
 window.addEventListener("load", function(){
   setTimeout(function(){
     document.getElementById("ad-container").style.opacity = "1";
   }, 30000);
 });
-</script>
-
-<!-- NEW AD SCRIPT (independent) -->
-<script>
-(function(kitnk){
-var d = document,
-    s = d.createElement('script'),
-    l = d.scripts[d.scripts.length - 1];
-s.settings = kitnk || {};
-s.src = "//selfassured-celebration.com/b.X/V/sSdBGVlW0EY-WTcg/kecmQ9CupZoUNlTkrPSTZYe4VOJDoEJy/OBDjEWtlN/jog/4ZM/THIb4rNUQj";
-s.async = true;
-s.referrerPolicy = 'no-referrer-when-downgrade';
-l.parentNode.insertBefore(s, l);
-})({})
 </script>
 
 </body>
