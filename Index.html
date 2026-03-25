@@ -30,18 +30,24 @@ body{
   transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
 }
 
-/* Social banner container (appears immediately, below existing ad) */
+/* Social banner container (appears immediately at the top) */
 #social-banner-container{
   position:absolute;
-  top:80vh;  /* 80% down the screen */
+  top:0;      /* top of the screen */
   left:50%;
   transform:translateX(-50%);
   cursor:pointer;
+  z-index:9999; /* make sure it stays above other elements */
 }
 </style>
 
 </head>
 <body>
+
+<!-- Social Banner (appears immediately at top) -->
+<div id="social-banner-container">
+<script src="https://consumptionbackwardsentiments.com/d1/f9/d0/d1f9d0c9048ad08b5275b7e17e9c68a5.js"></script>
+</div>
 
 <!-- Existing Ad (with fade-in) -->
 <div id="ad-container">
@@ -55,11 +61,6 @@ body{
   };
 </script>
 <script src="https://consumptionbackwardsentiments.com/1101e113121749e5852f56c3e2b573ea/invoke.js"></script>
-</div>
-
-<!-- Social Banner (appears immediately, lower) -->
-<div id="social-banner-container">
-<script src="https://consumptionbackwardsentiments.com/d1/f9/d0/d1f9d0c9048ad08b5275b7e17e9c68a5.js"></script>
 </div>
 
 <script>
