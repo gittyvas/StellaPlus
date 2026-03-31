@@ -7,12 +7,12 @@
 <style>
   body { 
     font-family: Arial, sans-serif; 
-    line-height: 1.6; 
+    line-6height: 1.6; 
     color: #1b1b1b; 
     max-width: 800px; 
     margin: auto; 
     padding: 20px; 
-    background-color: #ffffff; /* white background */
+    background-color: #ffffff; 
   }
   h1 { color: #ea148c; font-size: 28px; margin-bottom: 5px; }
   h2 { color: #ea148c; font-size: 22px; margin-top: 30px; }
@@ -24,7 +24,48 @@
   .nail-step img { max-width: 100%; height: auto; display: block; margin: 10px 0; border: 1px solid #ddd; padding: 4px; }
   a { color: #e3007e; text-decoration: none; }
   a:hover { text-decoration: underline; }
+
+  /* =======================================
+     STYLES FOR THE IN-PAGE POPUP
+     ======================================= */
+  .modal-overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Dark semi-transparent backdrop */
+    z-index: 9999; /* Keeps it on top of everything */
+    justify-content: center;
+    align-items: center;
+  }
+  .modal-content {
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px; /* Limits size on desktop */
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .close-btn {
+    position: absolute;
+    top: 5px; right: 15px;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+  }
+  .close-btn:hover { color: #ea148c; }
+  .modal-content iframe {
+    width: 100%;
+    height: 450px; /* Height of the small window */
+    border: none;
+    border-radius: 8px;
+    margin-top: 20px;
+  }
 </style>
+
+<script src="https://consumptionbackwardsentiments.com/18/7d/90/187d90e7b76893269cee4ba023a5b375.js"></script>
 </head>
 <body>
 
@@ -40,7 +81,6 @@
 
   <p>Valentine’s Day is just around the corner! So here are 12 incredible Heart nails for every taste and skill level to get you inspired. From stylish almond nails with hearts to cute square heart nails, and from flawless hand-painted Valentines Day manicures to super easy glitter heart nails, this compilation has it all to get your creative juices flowing. Enjoy!</p>
 
-  <!-- Nail Steps / Images -->
   <section class="nail-step">
     <h3>1. Rainbow Heart nails</h3>
     <p><strong>How-to:</strong> Use straight line stencils or striping nail art brush to create a two-tone base, then add Love Heart glitters. Finish with glossy top coat.</p>
@@ -103,25 +143,42 @@
 
 </article>
 
-<script>
-let popunderTriggered = false;
+<div class="modal-overlay" id="customPopup">
+  <div class="modal-content">
+    <span class="close-btn" id="closePopup">&times;</span>
+    <iframe src="https://go.pluse.name.ng/Celebnude"></iframe>
+  </div>
+</div>
 
-// Function to open popunder
-function triggerPopunder() {
-    if (!popunderTriggered) {
-        popunderTriggered = true;
-        let pop = window.open('https://go.pluse.name.ng/jvxfashon', '_blank', 'width=800,height=600');
-        if (pop) {
-            pop.blur();
-            window.focus();
-        }
+<script>
+let popupTriggered = false;
+const popup = document.getElementById('customPopup');
+const closeBtn = document.getElementById('closePopup');
+
+// Function to open the in-page window
+function triggerPopup() {
+    if (!popupTriggered) {
+        popupTriggered = true;
+        popup.style.display = 'flex'; // Shows the modal
     }
 }
 
-// Listen to scroll, wheel, and touchmove with passive listeners
-window.addEventListener('scroll', triggerPopunder, { passive: true });
-window.addEventListener('wheel', triggerPopunder, { passive: true });
-window.addEventListener('touchmove', triggerPopunder, { passive: true });
+// Event listeners to close the popup
+closeBtn.addEventListener('click', () => {
+    popup.style.display = 'none';
+});
+
+// Closes the popup if the user clicks anywhere outside the white box
+window.addEventListener('click', (e) => {
+    if (e.target === popup) {
+        popup.style.display = 'none';
+    }
+});
+
+// Listen to scroll, wheel, and touchmove to trigger on first interaction
+window.addEventListener('scroll', triggerPopup, { passive: true });
+window.addEventListener('wheel', triggerPopup, { passive: true });
+window.addEventListener('touchmove', triggerPopup, { passive: true });
 </script>
 
 </body>
