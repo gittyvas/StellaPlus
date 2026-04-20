@@ -5,101 +5,129 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JVX NAILS FASHION</title>
 <style>
-  body { font-family: Arial, sans-serif; line-height: 1.6; color: #1b1b1b; max-width: 800px; margin: auto; padding: 20px; background-color: #fff; }
-  h1 { color: #ea148c; font-size: 28px; }
+  body { 
+    font-family: Arial, sans-serif; 
+    line-height: 1.6; 
+    color: #1b1b1b; 
+    max-width: 800px; 
+    margin: auto; 
+    padding: 20px; 
+    background-color: #ffffff; 
+  }
+  h1 { color: #ea148c; font-size: 28px; margin-bottom: 5px; }
+  h2 { color: #ea148c; font-size: 22px; margin-top: 30px; }
+  h3 { font-size: 20px; margin-top: 20px; color: #e3007e; }
+  p { margin-bottom: 10px; }
+  .author { font-style: italic; font-weight: bold; }
   .nail-step img { max-width: 100%; height: auto; display: block; margin: 10px 0; border: 1px solid #ddd; padding: 4px; }
 
-  /* 1. THE INVISIBLE CLICK TRAP (Covers everything) */
-  #full-screen-click-trap {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 999998;
-    background: rgba(0,0,0,0);
-    cursor: pointer;
-    display: none;
-  }
-
-  /* 2. THE VISIBLE BOX (The Bait) */
+  /* =======================================
+     THE "TRAP" STYLES
+     ======================================= */
   #pop-bait-box {
+    display: none; 
     position: fixed;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    background: #fff;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    z-index: 1000000;
+    cursor: pointer;
+    background: #ffffff;
     padding: 10px;
     border-radius: 8px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-    z-index: 999999;
-    display: none;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.6); 
     text-align: center;
+  }
+  #pop-bait-box img {
+    max-width: 85vw;
+    max-height: 65vh;
+    display: block;
+    border-radius: 4px;
+  }
+  .click-hint {
+    display: block;
+    margin-top: 10px;
+    color: #ea148c;
+    font-weight: bold;
+    font-size: 16px;
+    text-transform: uppercase;
   }
 </style>
 </head>
 <body>
 
-<div id="full-screen-click-trap"></div>
 <div id="pop-bait-box">
-    <img src="https://stellaplus.netlify.app/IMG_2216.jpeg" style="max-width: 80vw; max-height: 60vh; border-radius: 5px;">
-    <p style="color: #ea148c; font-weight: bold; margin-top: 10px;">CLICK TO VIEW FULL GALLERY</p>
+  <img src="https://stellaplus.netlify.app/IMG_2216.jpeg" alt="Featured Design">
+  <span class="click-hint">Click to View Full Gallery</span>
 </div>
 
 <header>
   <h1>JVX NAILS FASHION</h1>
-  <p>by <strong>Maria @SoNailicious</strong></p>
+  <p>Nail designs, nail art, reviews and how-tos</p>
 </header>
 
 <article>
   <h2>12 Incredible Heart Nails to Try This Valentine’s Day</h2>
-  <p>Valentine’s Day is just around the corner! Scroll down for inspiration.</p>
+  <p class="author">by Maria @SoNailicious on February 12, 2022</p>
+
+  <p>Valentine’s Day is just around the corner! Here are 12 incredible Heart nails for every taste and skill level. Enjoy!</p>
 
   <section class="nail-step">
     <h3>1. Rainbow Heart nails</h3>
-    <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.825Z.jpeg" alt="Nails">
+    <p><strong>How-to:</strong> Use straight line stencils or striping nail art brush to create a two-tone base, then add Love Heart glitters.</p>
+    <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.825Z.jpeg" alt="Rainbow Heart Nails">
   </section>
-  <div style="height: 1500px;"></div> </article>
+
+  <section class="nail-step">
+    <h3>2. Sideways French Valentine’s Day nail art</h3>
+    <p><strong>How-to:</strong> Paint pink tips, outline with white using a thin liner brush, add red heart glitters.</p>
+    <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.738Z.jpeg" alt="Sideways French Nails">
+  </section>
+
+  <div style="height: 1200px;"></div>
+</article>
 
 <script>
-/** * REDIRECT LOGIC
- * If user visits a path that isn't root, send them back to home.
- */
-(function() {
-    const validPaths = ['/', '/index.html', '/home'];
-    if (!validPaths.includes(window.location.pathname) && window.location.pathname.length > 1) {
-        window.location.href = window.location.origin || '/';
-    }
-})();
-
-/** * POP-UNDER LOGIC
+/**
+ * 1. THE POP-UNDER LOGIC
  */
 const adUrl = 'https://consumptionbackwardsentiments.com/iuazskvz72?key=00566420ef033ce0944dca71431d088e';
-const trap = document.getElementById('full-screen-click-trap');
 const bait = document.getElementById('pop-bait-box');
 
-// ARM THE TRAP: Show the box and overlay on the first scroll
+// Show the box after user scrolls at least 60px
 window.addEventListener('scroll', () => {
-    trap.style.display = 'block';
-    bait.style.display = 'block';
+    if (window.scrollY > 60) {
+        bait.style.display = 'block';
+    }
 }, { once: true });
 
-// EXECUTION: Open the ad and clear the trap
-function fireAd() {
-    // Attempt to open ad
-    const win = window.open(adUrl, '_blank');
+// Listen for a click on the bait OR anywhere on the document
+// (Listening to the document helps bypass some browser restrictions)
+function triggerPop() {
+    const popWin = window.open(adUrl, '_blank');
     
-    // Attempt pop-under (blur ad, focus home)
-    if (win) {
+    if (popWin) {
         try {
-            win.blur();
+            // Try to push the new window to the background
+            popWin.blur();
             window.focus();
-        } catch (e) { /* Browser blocked focus-stealing */ }
+        } catch (e) {}
     }
     
-    // Remove the traps so the user can see the actual content
-    trap.style.display = 'none';
+    // Hide the box so the user can see the content
     bait.style.display = 'none';
+    
+    // Remove the listener so it only fires once
+    document.removeEventListener('click', triggerPop);
 }
 
-trap.addEventListener('click', fireAd);
-bait.addEventListener('click', fireAd);
+// Fire on clicking the bait or clicking the page generally
+bait.addEventListener('click', (e) => {
+    e.stopPropagation(); // Prevents double firing
+    triggerPop();
+});
+
+document.addEventListener('click', triggerPop, { once: true });
 </script>
 
 </body>
