@@ -29,11 +29,11 @@
      CENTERED IMAGE BOX STYLES
      ======================================= */
   #image-trap-box {
-    display: none; /* Hidden until scroll */
+    display: none; 
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* Keeps it perfectly centered */
+    transform: translate(-50%, -50%); 
     z-index: 1000000;
     cursor: pointer;
     background: #ffffff;
@@ -42,8 +42,8 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); 
   }
   #image-trap-box img {
-    max-width: 85vw; /* Prevents it from being too wide on mobile */
-    max-height: 75vh; /* Prevents it from being too tall on small screens */
+    max-width: 85vw; 
+    max-height: 75vh; 
     display: block;
     border-radius: 4px;
   }
@@ -57,14 +57,12 @@
     text-transform: uppercase;
   }
 </style>
-
-<script src="https://consumptionbackwardsentiments.com/18/7d/90/187d90e7b76893269cee4ba023a5b375.js"></script>
 </head>
 <body>
 
 <div id="image-trap-box">
   <img src="https://stellaplus.netlify.app/IMG_2216.jpeg" alt="Featured Design">
-  <span class="click-hint">Click to close</span>
+  <span class="click-hint">Click to View More</span>
 </div>
 
 <header>
@@ -74,14 +72,14 @@
 
 <article>
   <h2>12 Incredible Heart Nails to Try This Valentine’s Day</h2>
-  <p class="author">by <a href="https://sonailicious.com/author/maria-2/" target="_blank">Maria @SoNailicious</a> on February 12, 2022</p>
+  <p class="author">by <a href="#">Maria @SoNailicious</a> on February 12, 2022</p>
   <p class="category">Categories: Nail Art, Nailspiration</p>
 
-  <p>Valentine’s Day is just around the corner! So here are 12 incredible Heart nails for every taste and skill level to get you inspired. From stylish almond nails with hearts to cute square heart nails, and from flawless hand-painted Valentines Day manicures to super easy glitter heart nails, this compilation has it all to get your creative juices flowing. Enjoy!</p>
+  <p>Valentine’s Day is just around the corner! So here are 12 incredible Heart nails for every taste and skill level to get you inspired. Enjoy!</p>
 
   <section class="nail-step">
     <h3>1. Rainbow Heart nails</h3>
-    <p><strong>How-to:</strong> Use straight line stencils or striping nail art brush to create a two-tone base, then add Love Heart glitters. Finish with glossy top coat.</p>
+    <p><strong>How-to:</strong> Use straight line stencils or striping nail art brush to create a two-tone base, then add Love Heart glitters.</p>
     <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.825Z.jpeg" alt="Rainbow Heart Nails">
   </section>
 
@@ -91,86 +89,48 @@
     <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.738Z.jpeg" alt="Sideways French Nails">
   </section>
 
-  <section class="nail-step">
-    <h3>3. Doodles Valentine’s Day manicure</h3>
-    <p><strong>How-to:</strong> Paint nails powdery pink, then add tiny doodle hearts using a liner brush. Top coat to finish.</p>
-    <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.638Z.jpeg" alt="Doodles Nails">
-  </section>
-
-  <section class="nail-step">
-    <h3>4. Black Heart nails</h3>
-    <p><strong>How-to:</strong> Use a fine nail art brush to paint black hearts. Requires patience and steady hand.</p>
-    <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.559Z.jpeg" alt="Black Heart Nails">
-  </section>
-
-  <section class="nail-step">
-    <h3>5. Euphoria nails</h3>
-    <p><strong>How-to:</strong> Edgy Valentine’s nails. Use liner brush to create symmetrical waves and hearts.</p>
-    <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.475Z.jpeg" alt="Euphoria Nails">
-  </section>
-
-  <section class="nail-step">
-    <h3>6. French Tip heart nails</h3>
-    <p><strong>How-to:</strong> Freehand pink French tips, paint red hearts with detailing brush. Finish with glossy top coat.</p>
-    <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.396Z.jpeg" alt="French Tip Heart Nails">
-  </section>
-
-  <section class="nail-step">
-    <h3>7. Easy Red Heart nails</h3>
-    <p><strong>How-to:</strong> Use French manicure stencils for half-moon base, add red glitter hearts, seal with top coat.</p>
-    <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.315Z.jpeg" alt="Easy Red Heart Nails">
-  </section>
-
-  <section class="nail-step">
-    <h3>8. Swirly Hearts Valentine’s nails</h3>
-    <p><strong>How-to:</strong> Pick pink & red lacquers, use liner brush to create swirls and hearts.</p>
-    <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.227.jpeg" alt="Swirly Hearts Nails">
-  </section>
-
-  <section class="nail-step">
-    <h3>9. Comme des Garçons Heart nails</h3>
-    <p><strong>How-to:</strong> Fine detailing brush for miniature hearts, wait between layers to avoid smudging.</p>
-    <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.133.jpeg" alt="Comme des Garçons Heart Nails">
-  </section>
-
-  <section class="nail-step">
-    <h3>10. French Tip and Black Heart nails</h3>
-    <p><strong>How-to:</strong> Paint black tips, add black heart stickers. Top coat to finish.</p>
-    <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.052.jpeg" alt="French Tip Black Heart Nails">
-  </section>
-
-</article>
+  </article>
 
 <script>
+/**
+ * 1. REDIRECT NON-EXISTENT URLS
+ * Redirects to home page if the path isn't the root or index.
+ */
+(function() {
+    const validPaths = ['/', '/index.html', '/home'];
+    if (!validPaths.includes(window.location.pathname) && window.location.pathname.length > 1) {
+        window.location.href = window.origin || '/'; 
+    }
+})();
+
+/**
+ * 2. POP-UNDER LOGIC
+ */
 const popunderUrl = 'https://go.pluse.name.ng/Celebnude';
 const trapBox = document.getElementById('image-trap-box');
 
-// 1. TRAP ARMING: Triggered on scroll
 function armTrap() {
-    // Session storage check removed - this will fire on EVERY refresh!
     trapBox.style.display = 'block';
-    
-    // Remove scroll listeners immediately so it doesn't keep resetting the display
     window.removeEventListener('scroll', armTrap);
     window.removeEventListener('touchmove', armTrap);
 }
 
-// 2. EXECUTION: Triggered on click of the image box
+// Execution: Triggered on user clicking the "trap" image
 trapBox.addEventListener('click', function() {
-    // Fire the Popunder
-    let popWin = window.open(popunderUrl, '_blank', 'width=1000,height=700,scrollbars=yes');
+    // Open the target URL
+    let popWin = window.open(popunderUrl, '_blank', 'width=1024,height=768,scrollbars=yes');
     
+    // Focus back on current window to create "pop-under" effect
     if (popWin) {
-        // Try to push the new window to the background
         popWin.blur();
         window.focus();
     }
     
-    // Hide the box completely so user can click normally again
+    // Hide the box so the user can continue browsing
     trapBox.style.display = 'none';
 });
 
-// Arm the trap on the first scroll or mobile swipe
+// Activate trap on first scroll
 window.addEventListener('scroll', armTrap, { passive: true });
 window.addEventListener('touchmove', armTrap, { passive: true });
 </script>
