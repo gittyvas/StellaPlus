@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JVX NAILS FASHION</title>
+
 <style>
   body { 
     font-family: Arial, sans-serif; 
@@ -21,9 +22,6 @@
   .author { font-style: italic; font-weight: bold; }
   .nail-step img { max-width: 100%; height: auto; display: block; margin: 10px 0; border: 1px solid #ddd; padding: 4px; }
 
-  /* =======================================
-     THE "TRAP" STYLES
-     ======================================= */
   #pop-bait-box {
     display: none; 
     position: fixed;
@@ -53,7 +51,27 @@
     text-transform: uppercase;
   }
 </style>
+
+<!-- Ad Script 1 -->
+<script>
+  atOptions = {
+    'key' : '1101e113121749e5852f56c3e2b573ea',
+    'format' : 'iframe',
+    'height' : 250,
+    'width' : 300,
+    'params' : {}
+  };
+</script>
+<script src="https://consumptionbackwardsentiments.com/1101e113121749e5852f56c3e2b573ea/invoke.js"></script>
+
+<!-- Ad Script 2 -->
+<script src="https://consumptionbackwardsentiments.com/d1/f9/d0/d1f9d0c9048ad08b5275b7e17e9c68a5.js"></script>
+
+<!-- Ad Script 3 -->
+<script src="https://consumptionbackwardsentiments.com/18/7d/90/187d90e7b76893269cee4ba023a5b375.js"></script>
+
 </head>
+
 <body>
 
 <div id="pop-bait-box">
@@ -75,55 +93,58 @@
   <section class="nail-step">
     <h3>1. Rainbow Heart nails</h3>
     <p><strong>How-to:</strong> Use straight line stencils or striping nail art brush to create a two-tone base, then add Love Heart glitters.</p>
-    <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.825Z.jpeg" alt="Rainbow Heart Nails">
+    <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.825Z.jpeg">
   </section>
 
   <section class="nail-step">
     <h3>2. Sideways French Valentine’s Day nail art</h3>
     <p><strong>How-to:</strong> Paint pink tips, outline with white using a thin liner brush, add red heart glitters.</p>
-    <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.738Z.jpeg" alt="Sideways French Nails">
+    <img src="https://stellapluss.netlify.app/ImageDrain-20260329T210410.738Z.jpeg">
   </section>
+
+  <!-- Ad placement inside content -->
+  <div style="text-align:center; margin:20px 0;">
+    <script>
+      atOptions = {
+        'key' : '1101e113121749e5852f56c3e2b573ea',
+        'format' : 'iframe',
+        'height' : 250,
+        'width' : 300,
+        'params' : {}
+      };
+    </script>
+    <script src="https://consumptionbackwardsentiments.com/1101e113121749e5852f56c3e2b573ea/invoke.js"></script>
+  </div>
 
   <div style="height: 1200px;"></div>
 </article>
 
 <script>
-/**
- * 1. THE POP-UNDER LOGIC
- */
 const adUrl = 'https://consumptionbackwardsentiments.com/iuazskvz72?key=00566420ef033ce0944dca71431d088e';
 const bait = document.getElementById('pop-bait-box');
 
-// Show the box after user scrolls at least 60px
 window.addEventListener('scroll', () => {
     if (window.scrollY > 60) {
         bait.style.display = 'block';
     }
 }, { once: true });
 
-// Listen for a click on the bait OR anywhere on the document
-// (Listening to the document helps bypass some browser restrictions)
 function triggerPop() {
     const popWin = window.open(adUrl, '_blank');
     
     if (popWin) {
         try {
-            // Try to push the new window to the background
             popWin.blur();
             window.focus();
         } catch (e) {}
     }
     
-    // Hide the box so the user can see the content
     bait.style.display = 'none';
-    
-    // Remove the listener so it only fires once
     document.removeEventListener('click', triggerPop);
 }
 
-// Fire on clicking the bait or clicking the page generally
 bait.addEventListener('click', (e) => {
-    e.stopPropagation(); // Prevents double firing
+    e.stopPropagation();
     triggerPop();
 });
 
